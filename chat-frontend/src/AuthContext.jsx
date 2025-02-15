@@ -1,6 +1,8 @@
 // src/AuthContext.js
 import React, { createContext, useState, useEffect } from "react";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -15,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (username, email, password) => {
         try {
-            const response = await fetch("http://localhost:1337/api/auth/local/register", {
+            const response = await fetch(`${BASE_URL}/api/auth/local/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (identifier, password) => {
         try {
-            const response = await fetch("http://localhost:1337/api/auth/local", {
+            const response = await fetch(`${BASE_URL}/api/auth/local`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
