@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const BASE_URL = "http://localhost:1337";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const socket = io(BASE_URL, {
   transports: ["websocket", "polling"],

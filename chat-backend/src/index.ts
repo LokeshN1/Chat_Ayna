@@ -7,13 +7,15 @@ module.exports = {
   bootstrap({ strapi }) {
     const io = new Server(strapi.server.httpServer, {
       cors: {
-        origin: "http://localhost:5173",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
         credentials: true,
       },
     });
 
     io.on("connection", (socket) => {
+      console.log("🚀 Allowed Frontend URL:", process.env.FRONTEND_URL);
+
       console.log("✅ A user connected!");
 
       socket.on("sendMessage", (data) => {
