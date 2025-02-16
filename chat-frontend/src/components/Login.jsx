@@ -15,8 +15,8 @@ const Login = () => {
     setAlertMessage("");
     try {
       const result = await login(identifier, password);
-      if(result.success) setAlertMessage("Login successful!");
-      else setAlertMessage("Login failed. Please check your credentials.");
+      setAlertMessage(result.message);
+
     } catch (error) {
       setAlertMessage("An unexpected error occurred. Please try again.");
     } finally {

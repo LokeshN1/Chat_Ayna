@@ -6,17 +6,33 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const { register } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(username, email, password);
+    setLoading(true);
+    setAlertMessage("");
+    try {
+      const result = await register(username, email, password);
+      setAlertMessage(result.message);
+    } catch (error) {
+      setAlertMessage("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        {alertMessage && (
+          <div className={`mb-4 p-3 rounded-md ${alertMessage.includes("successful") ? "bg-green-600" : "bg-red-600"} text-white`}>
+            {alertMessage}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <input
@@ -51,8 +67,9 @@ const Register = () => {
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md transition duration-300"
+            disabled={loading}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
         <div className="mt-4 text-center">

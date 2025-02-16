@@ -30,11 +30,17 @@ export const AuthProvider = ({ children }) => {
                 setUser(data.user);
                 localStorage.setItem("token", data.jwt);
                 localStorage.setItem("user", JSON.stringify(data.user));
+                return { success: true, message: "Registration successful!" };
+
             } else {
                 console.error("Registration error:", data);
+                return { success: false, message: data.error.message || "Registration failed. Please check your details." };
+
             }
         } catch (error) {
             console.error("Network error during registration:", error);
+            return { success: false, message: "Network error. Please try again later." };
+
         }
     };
 
@@ -57,10 +63,12 @@ export const AuthProvider = ({ children }) => {
 
             } else {
                 console.error("Login error:", data);
-                return { success: false, message: data.message || "Login failed. Please check your credentials." };
+                return { success: false, message: data.error.message || "Login failed. Please check your credentials." };
             }
         } catch (error) {
             console.error("Network error during login:", error);
+            return { success: false, message: "Network error. Please try again later." };
+
         }
     };
 
