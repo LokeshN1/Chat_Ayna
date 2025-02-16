@@ -53,8 +53,11 @@ export const AuthProvider = ({ children }) => {
                 setUser(data.user);
                 localStorage.setItem("token", data.jwt);
                 localStorage.setItem("user", JSON.stringify(data.user));
+                return { success: true, message: "Login successful!" };
+
             } else {
                 console.error("Login error:", data);
+                return { success: false, message: data.message || "Login failed. Please check your credentials." };
             }
         } catch (error) {
             console.error("Network error during login:", error);
